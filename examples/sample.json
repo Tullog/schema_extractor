@@ -1,0 +1,83 @@
+{
+  "company": {
+    "name": "TechCorp Inc.",
+    "founded": 2010,
+    "headquarters": {
+      "city": "San Francisco",
+      "state": "CA",
+      "country": "USA",
+      "zip_code": "94105"
+    },
+    "employees": [
+      {
+        "id": 1,
+        "name": "John Doe",
+        "position": "Software Engineer",
+        "department": "Engineering",
+        "salary": 85000,
+        "start_date": "2020-01-15",
+        "skills": ["Python", "JavaScript", "React"],
+        "active": true,
+        "manager": {
+          "id": 5,
+          "name": "Jane Smith"
+        }
+      },
+      {
+        "id": 2,
+        "name": "Alice Johnson",
+        "position": "Product Manager",
+        "department": "Product",
+        "salary": 95000,
+        "start_date": "2019-06-01",
+        "skills": ["Product Strategy", "User Research", "Agile"],
+        "active": true,
+        "manager": {
+          "id": 8,
+          "name": "Bob Wilson"
+        }
+      },
+      {
+        "id": 3,
+        "name": "Charlie Brown",
+        "position": "Data Scientist",
+        "department": "Data Science",
+        "salary": 90000,
+        "start_date": "2021-03-10",
+        "skills": ["Python", "Machine Learning", "SQL"],
+        "active": false,
+        "manager": {
+          "id": 6,
+          "name": "Diana Prince"
+        }
+      }
+    ],
+    "departments": [
+      {
+        "id": 1,
+        "name": "Engineering",
+        "budget": 500000,
+        "head_count": 25
+      },
+      {
+        "id": 2,
+        "name": "Product",
+        "budget": 300000,
+        "head_count": 15
+      },
+      {
+        "id": 3,
+        "name": "Data Science",
+        "budget": 400000,
+        "head_count": 12
+      }
+    ],
+    "revenue": 2500000.50,
+    "is_public": false,
+    "website": "https://techcorp.example.com",
+    "contact": {
+      "email": "info@techcorp.example.com",
+      "phone": "+1-555-123-4567"
+    }
+  }
+}

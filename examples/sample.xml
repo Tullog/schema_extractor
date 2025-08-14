@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+    <book id="1" isbn="978-0-7475-3269-9" published="1997">
+        <title>Harry Potter and the Philosopher's Stone</title>
+        <author>
+            <name>J.K. Rowling</name>
+            <birth_year>1965</birth_year>
+            <nationality>British</nationality>
+        </author>
+        <genre>Fantasy</genre>
+        <pages>223</pages>
+        <price>19.99</price>
+        <available>true</available>
+        <tags>
+            <tag>magic</tag>
+            <tag>wizard</tag>
+            <tag>school</tag>
+        </tags>
+    </book>
+    <book id="2" isbn="978-0-7475-3849-3" published="1998">
+        <title>Harry Potter and the Chamber of Secrets</title>
+        <author>
+            <name>J.K. Rowling</name>
+            <birth_year>1965</birth_year>
+            <nationality>British</nationality>
+        </author>
+        <genre>Fantasy</genre>
+        <pages>251</pages>
+        <price>21.99</price>
+        <available>false</available>
+        <tags>
+            <tag>magic</tag>
+            <tag>wizard</tag>
+            <tag>mystery</tag>
+        </tags>
+    </book>
+    <book id="3" isbn="978-0-7475-4215-5" published="1999">
+        <title>Harry Potter and the Prisoner of Azkaban</title>
+        <author>
+            <name>J.K. Rowling</name>
+            <birth_year>1965</birth_year>
+            <nationality>British</nationality>
+        </author>
+        <genre>Fantasy</genre>
+        <pages>317</pages>
+        <price>23.99</price>
+        <available>true</available>
+        <tags>
+            <tag>magic</tag>
+            <tag>wizard</tag>
+            <tag>adventure</tag>
+        </tags>
+    </book>
+</library>

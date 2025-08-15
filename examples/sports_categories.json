@@ -1,0 +1,86 @@
+[
+    {
+        "id": "5b58071ac9e77c0001230d50",
+        "linkTitle": "Home",
+        "targetUri": "/",
+        "disabled": false,
+        "inApp": true
+    },
+    {
+        "id": "5b506a5bc9e77c000125cf57",
+        "linkTitle": "In-Play",
+        "targetUri": "in-play",
+        "disabled": false,
+        "inApp": true
+    },
+    {
+        "id": "5b506a77c9e77c000125cf5b",
+        "linkTitle": "Horse Racing",
+        "targetUri": "horse-racing",
+        "disabled": false,
+        "inApp": true
+    },
+    {
+        "id": "5f199427c9e77c00012b94b9",
+        "linkTitle": "Racing Super Series",
+        "targetUri": "https://racingsuperseries.coral.co.uk/en",
+        "disabled": false,
+        "inApp": true
+    },
+    {
+        "id": "5b506a68c9e77c000125cf59",
+        "linkTitle": "Football",
+        "targetUri": "sport/football",
+        "disabled": false,
+        "inApp": true
+    },
+    {
+        "id": "607edeea17d0864e2c3a0d60",
+        "linkTitle": "Football Super Series",
+        "targetUri": "/footballsuperseries/splash",
+        "disabled": false,
+        "inApp": true
+    },
+    {
+        "id": "5b506a37c9e77c000125cf53",
+        "linkTitle": "Promotions",
+        "targetUri": "promotions",
+        "disabled": false,
+        "inApp": true
+    },
+    {
+        "id": "5f8836f0c9e77c0001e6c6ac",
+        "linkTitle": "Coral Racing Club",
+        "targetUri": "https://coralracingclub.coral.co.uk/",
+        "disabled": false,
+        "inApp": true
+    },
+    {
+        "id": "5b506a85c9e77c0001360474",
+        "linkTitle": "Tennis",
+        "targetUri": "sport/tennis",
+        "disabled": false,
+        "inApp": true
+    },
+    {
+        "id": "5b506a91c9e77c0001360478",
+        "linkTitle": "Virtual Sports",
+        "targetUri": "virtual-sports",
+        "disabled": false,
+        "inApp": true
+    },
+    {
+        "id": "5b506a9ec9e77c000136047a",
+        "linkTitle": "Greyhounds",
+        "targetUri": "/greyhound-racing",
+        "disabled": false,
+        "inApp": true
+    },
+    {
+        "id": "6143425d527b9a3ce4622d04",
+        "linkTitle": "News & Blogs",
+        "targetUri": "https://sports.coral.co.uk/news/",
+        "disabled": false,
+        "inApp": false
+    }
+]

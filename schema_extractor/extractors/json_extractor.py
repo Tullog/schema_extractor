@@ -8,7 +8,7 @@ import re
 from typing import Dict, List, Optional, Any, Union
 from collections import defaultdict
 
-from ..models.schema import Schema, SchemaElement, SchemaAttribute, DataType
+from ..models.schema import Schema, SchemaElement, SchemaAttribute, DataType, DataNode
 
 
 class JSONExtractor:
@@ -55,6 +55,10 @@ class JSONExtractor:
         # Extract root element schema
         root_element = self._extract_element_schema(data, "root")
         schema.root_element = root_element
+        
+        # Extract data nodes
+        schema.data_nodes = self._extract_data_nodes(data, "root")
+        schema.total_data_nodes = len(schema.data_nodes)
         
         # Calculate statistics
         schema.total_elements = len(self.property_counts)
@@ -266,3 +270,47 @@ class JSONExtractor:
         merged_element.attributes = all_attributes
         
         return merged_element
+
+    def _extract_data_nodes(self, data: Any, path: str, depth: int = 0, parent_path: Optional[str] = None) -> List[DataNode]:
+        """
+        Extract all data nodes from JSON data.
+        
+        Args:
+            data: JSON data to extract nodes from
+            path: Current path in the data structure
+            depth: Current depth level
+            parent_path: Path of the parent node
+            
+        Returns:
+            List of DataNode objects
+        """
+        nodes = []
+        data_type = self._determine_data_type(data)
+        
+        # Create node for current element
+        node = DataNode(
+            path=path,
+            name=path.split('.')[-1] if '.' in path else path,
+            value=data,
+            data_type=data_type,
+            depth=depth,
+            parent_path=parent_path,
+            is_leaf=data_type not in [DataType.OBJECT, DataType.ARRAY],
+            description=f"Data node at path: {path}"
+        )
+        nodes.append(node)
+        
+        # Process children based on data type
+        if data_type == DataType.OBJECT and isinstance(data, dict):
+            for key, value in data.items():
+                child_path = f"{path}.{key}" if path != "root" else key
+                child_nodes = self._extract_data_nodes(value, child_path, depth + 1, path)
+                nodes.extend(child_nodes)
+        
+        elif data_type == DataType.ARRAY and isinstance(data, list):
+            for i, item in enumerate(data):
+                child_path = f"{path}[{i}]"
+                child_nodes = self._extract_data_nodes(item, child_path, depth + 1, path)
+                nodes.extend(child_nodes)
+        
+        return nodes

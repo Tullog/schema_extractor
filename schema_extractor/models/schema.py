@@ -21,6 +21,18 @@ class DataType(str, Enum):
     UNKNOWN = "unknown"
 
 
+class DataNode(BaseModel):
+    """Represents a data node with its path, value, and type."""
+    path: str  # Full path to the node (e.g., "root.user.name")
+    name: str  # Node name
+    value: Any  # Actual value
+    data_type: DataType
+    depth: int = 0
+    parent_path: Optional[str] = None
+    is_leaf: bool = True  # True if this is a leaf node (no children)
+    description: Optional[str] = None
+
+
 class SchemaAttribute(BaseModel):
     """Represents an attribute in an XML element or JSON object property."""
     name: str
@@ -67,6 +79,9 @@ class Schema(BaseModel):
     elements: Dict[str, SchemaElement] = Field(default_factory=dict)
     attributes: Dict[str, SchemaAttribute] = Field(default_factory=dict)
     
+    # Data nodes information
+    data_nodes: List[DataNode] = Field(default_factory=list)
+    
     # Metadata
     version: str = "1.0"
     description: Optional[str] = None
@@ -76,6 +91,7 @@ class Schema(BaseModel):
     total_elements: int = 0
     total_attributes: int = 0
     max_depth: int = 0
+    total_data_nodes: int = 0
     
     class Config:
         arbitrary_types_allowed = True
@@ -83,6 +99,31 @@ class Schema(BaseModel):
     def to_dict(self) -> Dict[str, Any]:
         """Convert schema to dictionary representation."""
         return self.model_dump()
+    
+    def get_data_nodes_by_type(self, data_type: DataType) -> List[DataNode]:
+        """Get all data nodes of a specific type."""
+        return [node for node in self.data_nodes if node.data_type == data_type]
+    
+    def get_data_nodes_by_path(self, path_pattern: str) -> List[DataNode]:
+        """Get data nodes matching a path pattern."""
+        import re
+        pattern = re.compile(path_pattern)
+        return [node for node in self.data_nodes if pattern.match(node.path)]
+    
+    def get_leaf_nodes(self) -> List[DataNode]:
+        """Get all leaf nodes (nodes with actual values)."""
+        return [node for node in self.data_nodes if node.is_leaf]
+    
+    def get_unique_values(self) -> Dict[str, List[Any]]:
+        """Get unique values for each data node path."""
+        unique_values = {}
+        for node in self.data_nodes:
+            if node.is_leaf:
+                if node.path not in unique_values:
+                    unique_values[node.path] = []
+                if node.value not in unique_values[node.path]:
+                    unique_values[node.path].append(node.value)
+        return unique_values
     
     def to_json_schema(self) -> Dict[str, Any]:
         """Convert to JSON Schema format."""

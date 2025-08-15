@@ -9,7 +9,7 @@ from collections import defaultdict
 from lxml import etree
 import xmltodict
 
-from ..models.schema import Schema, SchemaElement, SchemaAttribute, DataType
+from ..models.schema import Schema, SchemaElement, SchemaAttribute, DataType, DataNode
 
 
 class XMLExtractor:
@@ -58,6 +58,10 @@ class XMLExtractor:
         # Extract root element schema
         root_element = self._extract_element_schema(root)
         schema.root_element = root_element
+        
+        # Extract data nodes
+        schema.data_nodes = self._extract_data_nodes(root, root.tag)
+        schema.total_data_nodes = len(schema.data_nodes)
         
         # Calculate statistics
         schema.total_elements = len(self.element_counts)
@@ -213,3 +217,72 @@ class XMLExtractor:
         schema.max_depth = self._calculate_max_depth(root)
         
         return schema
+
+    def _extract_data_nodes(self, element: etree._Element, path: str, depth: int = 0, parent_path: Optional[str] = None) -> List[DataNode]:
+        """
+        Extract all data nodes from XML element.
+        
+        Args:
+            element: XML element to extract nodes from
+            path: Current path in the data structure
+            depth: Current depth level
+            parent_path: Path of the parent node
+            
+        Returns:
+            List of DataNode objects
+        """
+        nodes = []
+        
+        # Create node for current element
+        element_type = self._determine_element_type(element)
+        node = DataNode(
+            path=path,
+            name=element.tag,
+            value=element.text.strip() if element.text and element.text.strip() else None,
+            data_type=element_type,
+            depth=depth,
+            parent_path=parent_path,
+            is_leaf=len(element) == 0 and (not element.text or not element.text.strip()),
+            description=f"XML element: {element.tag}"
+        )
+        nodes.append(node)
+        
+        # Extract attribute nodes
+        for attr_name, attr_value in element.attrib.items():
+            attr_path = f"{path}@{attr_name}"
+            attr_data_type = self._determine_data_type(attr_value)
+            attr_node = DataNode(
+                path=attr_path,
+                name=attr_name,
+                value=attr_value,
+                data_type=attr_data_type,
+                depth=depth + 1,
+                parent_path=path,
+                is_leaf=True,
+                description=f"Attribute: {attr_name}"
+            )
+            nodes.append(attr_node)
+        
+        # Extract text content node if present
+        if element.text and element.text.strip():
+            text_path = f"{path}#text"
+            text_data_type = self._determine_data_type(element.text.strip())
+            text_node = DataNode(
+                path=text_path,
+                name="text",
+                value=element.text.strip(),
+                data_type=text_data_type,
+                depth=depth + 1,
+                parent_path=path,
+                is_leaf=True,
+                description=f"Text content of {element.tag}"
+            )
+            nodes.append(text_node)
+        
+        # Process child elements
+        for i, child in enumerate(element):
+            child_path = f"{path}.{child.tag}"
+            child_nodes = self._extract_data_nodes(child, child_path, depth + 1, path)
+            nodes.extend(child_nodes)
+        
+        return nodes
